@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 
-const WorkMusic = () => {
+const GenerateMusic = () => {
     return [
         {
             name: "Beaver Creek",
@@ -67,4 +67,4 @@ const WorkMusic = () => {
 }
 
 
-export default WorkMusic;
+export default GenerateMusic;
