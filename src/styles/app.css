@@ -3,11 +3,36 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
 }
 
-h1, h2, h3{
+*::-webkit-scrollbar {
+    width: 5px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color:  rgba(155, 155, 155, 0.5);
+    border-radius: 20px;
+    border: transparent;
+}
+
+body{
+    font-family: "Lato", sans-serif;
+}
+
+h1 {
     color: rgb(54, 54, 54);
 }
+
+h3, h4 {
+    font-weight: 400;
+    color: rgb(100, 100, 100);
+}
+
 
 /* Song container styles */
 .song-container {
@@ -65,5 +90,58 @@ h1, h2, h3{
 }
 
 .play-controller svg {
+    cursor: pointer;
+}
+
+/* Library songs */
+
+.library {
+ position: fixed;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 20%;
+ background-color: #fff;
+ box-shadow: 2px 2px 50px rgb(195, 189, 189);
+ overflow-y: scroll;
+ padding-top: 30px;
+}
+
+.library h2 {
+    text-align: center;
+    padding: 1rem 2rem;
+}
+
+.library-song {
+    display: flex;
+    padding: 1rem 2rem;
+    align-items: center;
+}
+
+.library-song:hover {
+    background-color: rgb(222, 222, 255);
+}
+
+.library-song img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.song-description {
+    padding: 1rem 0;
+}
+
+.song-description h3 {
+    font-size: 1rem;
+}
+
+.song-description h4 {
+    font-size: 0.7rem;
+}
+
+.library-song h3 {
     cursor: pointer;
 }
