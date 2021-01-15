@@ -116,6 +116,7 @@ h3, h4 {
     display: flex;
     padding: 1rem 2rem;
     align-items: center;
+    cursor: pointer;
 }
 
 .library-song:hover {
@@ -126,7 +127,6 @@ h3, h4 {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    cursor: pointer;
     margin-right: 15px;
 }
 
@@ -140,8 +140,4 @@ h3, h4 {
 
 .song-description h4 {
     font-size: 0.7rem;
-}
-
-.library-song h3 {
-    cursor: pointer;
 }
