@@ -5,6 +5,7 @@ import './styles/app.css';
 import Player from './components/Player';
 import Song from './components/Song';
 import Library from "./components/Library";
+import Nav from './components/Nav';
 
 import GenerateMusic from "./data";
 
@@ -13,6 +14,7 @@ function App() {
   const [songs, setSongs] = useState(GenerateMusic());
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [libraryStatus, setLibraryStatus] = useState(false);
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
@@ -34,9 +36,10 @@ function App() {
 
   return (
     <div className="app">
-        <Library songs={songs} isPlaying={isPlaying} setCurrentSong={setCurrentSong} AudioRef={AudioRef} />
-        <Song currentSong={currentSong}/>
-        <Player currentSong={currentSong} AudioRef={AudioRef} isPlaying={isPlaying} setIsPlaying={setIsPlaying} songInfo={songInfo} setSongInfo={setSongInfo} TimeUpdateHandler={TimeUpdateHandler} />
+      <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
+      <Library songs={songs} isPlaying={isPlaying} setSongs={setSongs} currentSong={currentSong} setCurrentSong={setCurrentSong} AudioRef={AudioRef} libraryStatus={libraryStatus} />
+      <Song currentSong={currentSong}/>
+      <Player currentSong={currentSong} AudioRef={AudioRef} isPlaying={isPlaying} setIsPlaying={setIsPlaying} songInfo={songInfo} setSongInfo={setSongInfo} TimeUpdateHandler={TimeUpdateHandler} />
     </div>
   );
 }
