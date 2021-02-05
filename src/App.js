@@ -24,7 +24,7 @@ function App() {
   const AudioRef = useRef(null);
 
   // Event Handlers
-
+  // update some duration and playing time
   const TimeUpdateHandler = (e) => {
     setSongInfo({
         ...songInfo,
@@ -33,13 +33,77 @@ function App() {
     });
 };
 
+// Helpers 
+//Highlight active song and setPlaying song
+const selectSongHandler = async (song) => {
+
+  await setCurrentSong(song);
+  //Highlight active song
+  const updatedSongList = songs.map(filteredSong => {
+      if(filteredSong.id === song.id) {
+          return (
+              {...filteredSong, active: true}
+          )
+      }else {
+          return (
+              {...filteredSong, active: false}
+          )
+      }
+
+  });
+
+  setSongs(updatedSongList);
+          
+  if (isPlaying) {
+      const playPromise = AudioRef.current.play();
+      if ( playPromise !== undefined ){
+          playPromise.then(audio => {
+              AudioRef.current.play();
+          })
+      }
+  };
+};
+
+// Skipping to previous or nex song
+const skipTrackHandler = async (direction) => {
+  const totalSongs = songs.length - 1;
+  const currentIndex =  songs.findIndex(song => song.id === currentSong.id);
+
+  const nextSong =  (currentIndex + 1) < songs.length ? (songs[currentIndex + 1]) : songs[0];
+  const previousSong = (currentIndex - 1) < 0 ? songs[totalSongs] : (songs[currentIndex - 1]);
+  
+  if (direction === 'skip-forward') {
+      await selectSongHandler(nextSong);
+  } else if (direction === 'skip-back') {
+      await selectSongHandler(previousSong);
+  };
+};
+
+// Skip by dragging
+const DragHandler = (e) => {
+  AudioRef.current.currentTime = e.target.value;
+  setSongInfo({...songInfo, currentTime: e.target.value});
+};
+
+// Start / Pause player
+const PlayMusicHandler = (e) => {
+
+  setIsPlaying(!isPlaying);
+  
+  if(isPlaying){
+      AudioRef.current.pause();
+  }else{
+      AudioRef.current.play();
+  }
+};
+
 
   return (
     <div className="app">
       <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
-      <Library songs={songs} isPlaying={isPlaying} setSongs={setSongs} currentSong={currentSong} setCurrentSong={setCurrentSong} AudioRef={AudioRef} libraryStatus={libraryStatus} />
+      <Library songs={songs} libraryStatus={libraryStatus} selectSongHandler={selectSongHandler} />
       <Song currentSong={currentSong}/>
-      <Player currentSong={currentSong} AudioRef={AudioRef} isPlaying={isPlaying} setIsPlaying={setIsPlaying} songInfo={songInfo} setSongInfo={setSongInfo} TimeUpdateHandler={TimeUpdateHandler} />
+      <Player DragHandler={DragHandler} PlayMusicHandler={PlayMusicHandler} currentSong={currentSong} AudioRef={AudioRef} isPlaying={isPlaying} skipTrackHandler={skipTrackHandler} songInfo={songInfo} TimeUpdateHandler={TimeUpdateHandler} />
     </div>
   );
 }

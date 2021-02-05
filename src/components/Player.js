@@ -3,24 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 
-const Player = ({ currentSong, AudioRef, isPlaying, setIsPlaying, songInfo, setSongInfo, TimeUpdateHandler }) => {
-
-    // Event Handlers
-    const PlayMusicHandler = (e) => {
-
-        setIsPlaying(!isPlaying);
-        
-        if(isPlaying){
-            AudioRef.current.pause();
-        }else{
-            AudioRef.current.play();
-        }
-    };
-
-    const DragHandler = (e) => {
-        AudioRef.current.currentTime = e.target.value;
-        setSongInfo({...songInfo, currentTime: e.target.value});
-    };
+const Player = ({ PlayMusicHandler, skipTrackHandler, DragHandler, currentSong, AudioRef, isPlaying, songInfo, TimeUpdateHandler }) => {
 
     // Helpers
     const GetTime = (time) => {
@@ -35,11 +18,11 @@ const Player = ({ currentSong, AudioRef, isPlaying, setIsPlaying, songInfo, setS
                 <p>{GetTime(songInfo.duration > 0 ? songInfo.duration : 0)}</p>
             </div>
             <div className="play-controller">
-                <FontAwesomeIcon icon={faAngleLeft} className="skip-back" size="2x" />
+                <FontAwesomeIcon icon={faAngleLeft} onClick={(e) => skipTrackHandler('skip-back')} className="skip-back" size="2x" />
                 <FontAwesomeIcon onClick={PlayMusicHandler} icon={isPlaying ? faPause : faPlay} className="play" size="2x" />
-                <FontAwesomeIcon icon={faAngleRight} className="skip-forward" size="2x" />
+                <FontAwesomeIcon icon={faAngleRight} onClick={(e) => skipTrackHandler('skip-forward')} className="skip-forward" size="2x" />
             </div>
-            <audio ref={AudioRef} onLoadedMetadata={TimeUpdateHandler} onTimeUpdate={TimeUpdateHandler} src={currentSong.audio}></audio>
+            <audio ref={AudioRef} onLoadedMetadata={TimeUpdateHandler} onTimeUpdate={TimeUpdateHandler} onEnded={() => skipTrackHandler('skip-forward')} src={currentSong.audio}></audio>
         </div>
     )
 };
