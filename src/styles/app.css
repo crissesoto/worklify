@@ -229,6 +229,13 @@ nav button:hover {
     width: 16px;
   }
 
+  input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    background: transparent;
+    border: none;
+  }
+
+  
 /* Mobile styling */
 
 @media screen and (max-width: 768px) {

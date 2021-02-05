@@ -44,7 +44,7 @@ function App() {
 
 // Helpers 
 //Highlight active song and setPlaying song
-const selectSongHandler = (song) => {
+const selectSongHandler = async (song) => {
 
   setCurrentSong(song);
   //Highlight active song
@@ -61,7 +61,7 @@ const selectSongHandler = (song) => {
 
   });
 
-  setSongs(updatedSongList);
+  await setSongs(updatedSongList);
           
   if (isPlaying) {
       const playPromise = AudioRef.current.play();
@@ -82,7 +82,7 @@ const skipTrackHandler = (direction) => {
   const previousSong = (currentIndex - 1) < 0 ? songs[totalSongs] : (songs[currentIndex - 1]);
   
   if (direction === 'skip-forward') {
-      selectSongHandler(nextSong);
+     selectSongHandler(nextSong);
   } else if (direction === 'skip-back') {
       selectSongHandler(previousSong);
   };
