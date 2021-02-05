@@ -33,7 +33,7 @@ function App() {
     const roundedCurrentTime = Math.round(currentTime);
     const roundedDuration = Math.round(duration);
     const animationPercentage = Math.round((roundedCurrentTime / roundedDuration) * 100);
-    
+
     setSongInfo({
         ...songInfo,
         currentTime: currentTime,
@@ -44,9 +44,9 @@ function App() {
 
 // Helpers 
 //Highlight active song and setPlaying song
-const selectSongHandler = async (song) => {
+const selectSongHandler = (song) => {
 
-  await setCurrentSong(song);
+  setCurrentSong(song);
   //Highlight active song
   const updatedSongList = songs.map(filteredSong => {
       if(filteredSong.id === song.id) {
@@ -74,7 +74,7 @@ const selectSongHandler = async (song) => {
 };
 
 // Skipping to previous or nex song
-const skipTrackHandler = async (direction) => {
+const skipTrackHandler = (direction) => {
   const totalSongs = songs.length - 1;
   const currentIndex =  songs.findIndex(song => song.id === currentSong.id);
 
@@ -82,9 +82,9 @@ const skipTrackHandler = async (direction) => {
   const previousSong = (currentIndex - 1) < 0 ? songs[totalSongs] : (songs[currentIndex - 1]);
   
   if (direction === 'skip-forward') {
-      await selectSongHandler(nextSong);
+      selectSongHandler(nextSong);
   } else if (direction === 'skip-back') {
-      await selectSongHandler(previousSong);
+      selectSongHandler(previousSong);
   };
 };
 
