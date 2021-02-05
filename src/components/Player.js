@@ -10,12 +10,20 @@ const Player = ({ PlayMusicHandler, skipTrackHandler, DragHandler, currentSong, 
          return Math.floor(time / 60) + ":" + ("0" + Math.floor( time % 60)).slice(-2);
     };
 
+    // Style
+    const trackAnimation =  {
+        transform: `translateX(${songInfo.animationPercentage}%)`
+    };
+
     return(
         <div className="player-container">
             <div className="time-controller">
                 <p>{GetTime(songInfo.currentTime)}</p>
-                <input min={0} max={songInfo.duration || 0} onChange={DragHandler} value={songInfo.currentTime} type="range"></input>
-                <p>{GetTime(songInfo.duration > 0 ? songInfo.duration : 0)}</p>
+                <div style={{ background: `linear-gradient(to right, ${currentSong.color[0]}, ${currentSong.color[1]})` }} className="track">
+                    <input min={0} max={songInfo.duration || 0} onChange={DragHandler} value={songInfo.currentTime} type="range"></input>
+                    <div style={trackAnimation} className="animate-track"></div>
+                </div>
+                <p>{GetTime(songInfo.duration > 0 ? (songInfo.duration - songInfo.currentTime) : 0)}</p>
             </div>
             <div className="play-controller">
                 <FontAwesomeIcon icon={faAngleLeft} onClick={(e) => skipTrackHandler('skip-back')} className="skip-back" size="2x" />

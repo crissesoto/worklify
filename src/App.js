@@ -18,6 +18,7 @@ function App() {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
+    animationPercentage: 0,
   });
   
   // Ref
@@ -26,10 +27,18 @@ function App() {
   // Event Handlers
   // update some duration and playing time
   const TimeUpdateHandler = (e) => {
+    const currentTime = e.target.currentTime;
+    const duration = e.target.duration;
+    // calculate procentage for animation
+    const roundedCurrentTime = Math.round(currentTime);
+    const roundedDuration = Math.round(duration);
+    const animationPercentage = Math.round((roundedCurrentTime / roundedDuration) * 100);
+    
     setSongInfo({
         ...songInfo,
-        currentTime: e.target.currentTime,
-        duration: (e.target.duration - e.target.currentTime),
+        currentTime: currentTime,
+        duration: duration,
+        animationPercentage: animationPercentage
     });
 };
 
@@ -99,7 +108,7 @@ const PlayMusicHandler = (e) => {
 
 
   return (
-    <div className="app">
+    <div className={`app ${libraryStatus ? "library-active" : "" } `}>
       <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
       <Library songs={songs} libraryStatus={libraryStatus} selectSongHandler={selectSongHandler} />
       <Song currentSong={currentSong}/>
